@@ -9,7 +9,7 @@ public class BoardDAOTest {
 		
 			
 			Scanner key = new Scanner(System.in);
-			BoardDAO dao = new BoardDAO();
+			BoardDAOImpl dao = new BoardDAOImpl();
 			System.out.println("********게시글 등록*******");
 			
 			System.out.println("아이디:");
