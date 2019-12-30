@@ -2,7 +2,9 @@ package jdbc.member.exam;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import jdbc.board.exam.DBUtil;
 
@@ -76,6 +78,92 @@ public class MemberDAOImpl implements MemberDAO {
 		}
 		return result;
 		
+	}
+
+	@Override
+	public ArrayList<MemberDTO> memberList() {
+		
+		ArrayList<MemberDTO> memberli = new ArrayList<MemberDTO>();
+		MemberDTO member = null;
+		String sql = "select * from member";
+		Connection con = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = DBUtil.getConnect();
+			psmt = con.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				member = new MemberDTO(rs.getString(1), rs.getString(2)
+				, rs.getString(3) , rs.getString(4) , rs.getString(5));
+				memberli.add(member);
+			}
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs, psmt, con);
+		}
+		return memberli;
+
+	}
+
+	@Override
+	public ArrayList<MemberDTO> findByAddr(String addr) {
+		
+		ArrayList<MemberDTO> addrlist = new ArrayList<MemberDTO>();
+		MemberDTO address = null;
+		Connection con = null;
+		PreparedStatement psmt = null;
+		ResultSet rs  = null;
+		
+		String sql = "select * from member where addr = ?";
+		
+		try {
+			con = DBUtil.getConnect();
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1,addr);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				address = new MemberDTO(rs.getString(1), rs.getString(2)
+				, rs.getString(3) , rs.getString(4) , rs.getString(5));
+				addrlist.add(address);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs, psmt, con);
+		}
+		return addrlist;
+	}
+
+	@Override
+	public MemberDTO login(String id, String pass) {
+		
+		String sql = "select * from member where id =? and pass = ?";
+		Connection con = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		MemberDTO log = null;
+		
+		try {
+			con = DBUtil.getConnect();
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, id);
+			psmt.setString(2, pass);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				log = new MemberDTO(rs.getString(1), rs.getString(2)
+				, rs.getString(3) , rs.getString(4) , rs.getString(5));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs, psmt, con);
+		}
+		return log;
 	}
 	
 	

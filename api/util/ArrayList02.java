@@ -8,7 +8,9 @@ import java.util.ArrayList;
 public class ArrayList02 {
 	public static void main(String[] args) {
 		//배열의 경우 : String[] arr = new String[5];
-		ArrayList<String> list = new ArrayList<String>(); // < 담길데이터의타입 >//Person이런거 가능
+		ArrayList<String> list = new ArrayList<String>();
+		// < 담길데이터의타입 >//Person이런거 가능
+		//하나의 자료구조에는 하나의 데이터타입만 
 		
 		list.add("자바");
 		list.add("오라클");
